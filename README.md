@@ -13,42 +13,39 @@ Developed by : ASWIN ANTONY.S
 
 Reg no : 212224220014
 
-Cient
-
+Client.py
 ```
-import socket
-s = socket.socket()
-s.bind(('localhost',8002))
-s.listen(5)
-c, addr = s.accept()
-ListSize = int(input("Enter the number of frames to send : "))
-List = list(range(ListSize))
-WindowSize = int(input("Enter Window Size : "))
-st, i = 0, 0
+import socket 
+s=socket.socket()
+s.bind(('localhost',8080))
+s.listen(5) 
+c,addr=s.accept() 
 while True:
-    while(i < ListSize):
-        st += WindowSize
-        c.send(str(List[i:st]).encode())
-        Acknowledgment = c.recv(1024).decode()
-        if Acknowledgment:
-            print(Acknowledgment)
-            i+=st
+    i=input("Enter a data: ") 
+    c.send(i.encode()) 
+    ack=c.recv(1024).decode() 
+    if ack: 
+        print(ack) 
+        continue 
+    else: 
+        c.close()
+        break
 ```
-
-Server
-```
-import socket
-s = socket.socket()
-s.connect(('localhost', 8002))
-while True:
-    print(s.recv(1024).decode())
-    s.send("Acknowledgement received from the server".encode())
-
+Server.py
 
 ```
-## OUTPUT
-Refer to the screenshot below to see the output of the program
-![image](https://github.com/user-attachments/assets/99cc19c5-d344-4fdc-b7e7-887076367fe0)
+
+import socket 
+s=socket.socket() 
+s.connect(('localhost',8080)) 
+while True: 
+    print(s.recv(1024).decode()) 
+    s.send("Acknowledgement Recived".encode()) 
+
+```
+## OUPUT
+
+![Screenshot 2025-04-12 102735](https://github.com/user-attachments/assets/c63c97bd-d86c-4e5b-a79f-78926759ed07)
 
 ## RESULT
-Thus, python program to perform stop and wait protocol was successfully executed.
+Thus, python program to perform stop and wait protocol was successfully executed
